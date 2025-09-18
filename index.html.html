@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Installation Professionals | Get Free Quotes</title>
+    <meta name="description" content="Connect with top-rated solar installation professionals. Get free quotes for residential and commercial solar panel installation.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ff7e30 0%, #ff5f00 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .keywords-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .keywords-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .keyword-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .keyword-btn {
+            background: linear-gradient(135deg, #ff7e30 0%, #ff5f00 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(255, 126, 48, 0.3);
+        }
+        
+        .keyword-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 126, 48, 0.4);
+        }
+        
+        .keyword-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .articles-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .article-img {
+            height: 180px;
+            background: linear-gradient(135deg, #ff7e30 0%, #ff5f00 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .article-content {
+            padding: 20px;
+        }
+        
+        .article-content h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .article-content p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .read-more {
+            color: #ff7e30;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .read-more:hover {
+            color: #ff5f00;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            margin-top: 40px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            background: #ff6b6b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .notification.success {
+            background: #4ecdc4;
+        }
+        
+        @media (max-width: 768px) {
+            .keyword-buttons {
+                flex-direction: column;
+            }
+            
+            .keyword-btn {
+                width: 100%;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="notification" id="notification"></div>
+    
+    <header>
+        <div class="container">
+            <h1>Solar Installation Professionals</h1>
+            <p>Connect with top-rated solar installers and get free quotes for your project</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="keywords-section">
+            <h2>Find Certified Solar Installers</h2>
+            <p>Click any button below to search for qualified solar professionals in your area:</p>
+            
+            <div class="keyword-buttons">
+                <button class="keyword-btn" data-keyword="solar panel installation near me">Solar Panel Installation</button>
+                <button class="keyword-btn" data-keyword="residential solar installers">Residential Solar</button>
+                <button class="keyword-btn" data-keyword="commercial solar companies">Commercial Solar</button>
+                <button class="keyword-btn" data-keyword="solar battery storage installers">Solar Battery Storage</button>
+            </div>
+            
+            <p>We'll help you find the best local solar installers for your energy needs</p>
+        </section>
+        
+        <section class="articles-section">
+            <article class="article-card">
+                <div class="article-img">Solar Panels</div>
+                <div class="article-content">
+                    <h3>How Much Do Solar Panels Save in 2024?</h3>
+                    <p>Discover the potential savings from solar panel installation and how long it takes to recoup your investment with current incentives.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-img">Tax Credits</div>
+                <div class="article-content">
+                    <h3>Federal Solar Tax Credit Guide</h3>
+                    <p>Everything you need to know about the 30% federal solar tax credit and how to claim it on your next tax return.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-img">Battery Storage</div>
+                <div class="article-content">
+                    <h3>Solar Battery Storage Solutions</h3>
+                    <p>Learn about the latest battery storage technologies that allow you to store solar energy for use during power outages or at night.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-img">ROI</div>
+                <div class="article-content">
+                    <h3>Calculating Solar ROI</h3>
+                    <p>Understand how to calculate the return on investment for your solar panel system based on your location and energy usage.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-img">Installation</div>
+                <div class="article-content">
+                    <h3>Solar Installation Process</h3>
+                    <p>Step-by-step guide to what happens during a solar panel installation from consultation to activation.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-img">Maintenance</div>
+                <div class="article-content">
+                    <h3>Solar Panel Maintenance Tips</h3>
+                    <p>Learn how to maintain your solar panels for optimal performance and longevity with these expert tips.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </article>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2024 Solar Installation Professionals. All rights reserved.</p>
+            <p>Contact us: info@solarinstallerpro.com</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JWT token generation (for demonstration)
+        function generateToken() {
+            const header = { alg: "HS256", typ: "JWT" };
+            const payload = { 
+                sessionId: Math.random().toString(36).substring(2, 15),
+                timestamp: Date.now(),
+                source: 'solar_website'
+            };
+            
+            const encodedHeader = btoa(JSON.stringify(header)).replace(/=/g, "");
+            const encodedPayload = btoa(JSON.stringify(payload)).replace(/=/g, "");
+            const signature = btoa(encodedHeader + "." + encodedPayload + "solar-frontend-secret-2024").replace(/=/g, "");
+            
+            return `${encodedHeader}.${encodedPayload}.${signature}`;
+        }
+        
+        // Show notification
+        function showNotification(message, isError = true) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.background = isError ? '#ff6b6b' : '#4ecdc4';
+            notification.className = isError ? 'notification show' : 'notification show success';
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.keyword-btn');
+            let currentToken = generateToken();
+            
+            // Refresh token every 5 minutes
+            setInterval(() => {
+                currentToken = generateToken();
+            }, 5 * 60 * 1000);
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', async function() {
+                    const keyword = this.getAttribute('data-keyword');
+                    const originalText = this.textContent;
+                    
+                    // Show loading state
+                    this.textContent = 'Searching...';
+                    this.disabled = true;
+                    
+                    try {
+                        // Make request to worker
+                        const response = await fetch(`https://your-worker-domain.workers.dev/search?q=${encodeURIComponent(keyword)}`, {
+                            headers: {
+                                'Authorization': `Bearer ${currentToken}`
+                            }
+                        });
+                        
+                        if (!response.ok) {
+                            const errorData = await response.json().catch(() => ({}));
+                            throw new Error(errorData.error || `Server error: ${response.status}`);
+                        }
+                        
+                        const data = await response.json();
+                        
+                        if (data.success && data.redirectUrl) {
+                            // Show success message before redirecting
+                            showNotification('Connecting you with solar installers...', false);
+                            
+                            // Wait a moment before redirecting
+                            setTimeout(() => {
+                                window.location.href = data.redirectUrl;
+                            }, 1500);
+                        } else {
+                            throw new Error(data.error || 'Failed to get redirect URL');
+                        }
+                    } catch (error) {
+                        console.error('Redirect failed:', error);
+                        this.textContent = originalText;
+                        this.disabled = false;
+                        
+                        // Show error notification
+                        showNotification(error.message || 'Connection failed. Please try again.');
+                        
+                        // Fallback after delay
+                        setTimeout(() => {
+                            window.location.href = 'https://solarinstallerpro.com';
+                        }, 2000);
+                    }
+                });
+            });
+            
+            // Simulate user engagement metrics
+            let scrollDepth = 0;
+            let timeOnPage = 0;
+            let engagementEvents = 0;
+            
+            window.addEventListener('scroll', function() {
+                scrollDepth = Math.max(scrollDepth, (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+            });
+            
+            // Track engagement events (clicks, etc.)
+            document.addEventListener('click', function() {
+                engagementEvents++;
+            });
+            
+            setInterval(() => {
+                timeOnPage += 1;
+            }, 1000);
+            
+            // Send analytics before user leaves
+            window.addEventListener('beforeunload', function() {
+                const analyticsData = {
+                    scroll_depth: Math.round(scrollDepth),
+                    time_on_page: timeOnPage,
+                    engagement_events: engagementEvents,
+                    screen_resolution: `${window.screen.width}x${window.screen.height}`,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    language: navigator.language,
+                    token: currentToken
+                };
+                
+                navigator.sendBeacon('https://new-worker-code.shoaibsoftengr99.workers.dev/analytics', JSON.stringify(analyticsData));
+            });
+        });
+    </script>
+</body>
+</html>
