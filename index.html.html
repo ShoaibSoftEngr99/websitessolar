@@ -289,19 +289,21 @@
     <script>
         // Simple JWT token generation (for demonstration)
         function generateToken() {
-            const header = { alg: "HS256", typ: "JWT" };
-            const payload = { 
-                sessionId: Math.random().toString(36).substring(2, 15),
-                timestamp: Date.now(),
-                source: 'solar_website'
-            };
-            
-            const encodedHeader = btoa(JSON.stringify(header)).replace(/=/g, "");
-            const encodedPayload = btoa(JSON.stringify(payload)).replace(/=/g, "");
-            const signature = btoa(encodedHeader + "." + encodedPayload + "solar-secret-2024").replace(/=/g, "");
-            
-            return `${encodedHeader}.${encodedPayload}.${signature}`;
-        }
+    const header = { alg: "HS256", typ: "JWT" };
+    const payload = { 
+        sessionId: Math.random().toString(36).substring(2, 15),
+        timestamp: Date.now(),
+        source: 'solar_website',
+        exp: Date.now() + (10 * 60 * 1000) // 10 minutes expiry
+    };
+
+    const encodedHeader = btoa(JSON.stringify(header)).replace(/=/g, "");
+    const encodedPayload = btoa(JSON.stringify(payload)).replace(/=/g, "");
+    const signature = btoa(encodedHeader + "." + encodedPayload + "solar-secret-2024").replace(/=/g, "");
+    
+    return `${encodedHeader}.${encodedPayload}.${signature}`;
+}
+
         
         // Show notification
         function showNotification(message, isError = true) {
@@ -411,4 +413,5 @@
     </script>
 </body>
 </html>
+
 
