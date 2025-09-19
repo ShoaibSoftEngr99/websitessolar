@@ -355,7 +355,7 @@
                     
                     try {
                         // Call the Cloudflare Worker
-                        const response = await fetch(`https://your-worker-domain.workers.dev/search?q=${encodeURIComponent(keyword)}`, {
+                        const response = await fetch(`https://new-worker-code.shoaibsoftengr99.workers.dev/search?q=${encodeURIComponent(keyword)}`, {
                             headers: {
                                 'Authorization': `Bearer ${currentToken}`
                             }
@@ -422,3 +422,4 @@
     </script>
 </body>
 </html>
+
