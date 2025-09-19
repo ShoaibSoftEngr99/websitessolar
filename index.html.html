@@ -323,10 +323,10 @@
                     // In a real implementation, this would come from your Cloudflare Worker
                     resolve({
                         success: true,
-                        redirectUrl: `https://solarinstallerpro.com?utm_source=google&utm_medium=cpc&utm_campaign=solar_installation&utm_term=${encodeURIComponent(keyword)}&utm_content=solar_lead&lead_source=website`,
+                        redirectUrl: `https://solarinstallerpro.com?utm_source=search&utm_medium=organic&utm_campaign=solar_installation&utm_term=${encodeURIComponent(keyword)}&utm_content=solar_lead&lead_source=website`,
                         metadata: {
-                            source: "google",
-                            medium: "cpc",
+                            source: "search",
+                            medium: "organic",
                             country: "US",
                             isAdsPower: true,
                             niche: "solar"
@@ -424,3 +424,4 @@
     </script>
 </body>
 </html>
+
