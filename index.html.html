@@ -316,23 +316,24 @@
             }, 3000);
         }
         
-        // Function to redirect with referrer simulation
-        function redirectWithReferrer(targetUrl, referrer) {
-            // Create a form to simulate the referrer
-            const form = document.createElement('form');
-            form.method = 'GET';
-            form.action = targetUrl;
-            
-            // Add a hidden input to pass the referrer information
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'simulated_referrer';
-            input.value = referrer;
-            form.appendChild(input);
-            
-            // Add the form to the document and submit it
-            document.body.appendChild(form);
-            form.submit();
+        // Simulate a successful redirect response (for demo purposes)
+        function simulateWorkerResponse(keyword) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    // In a real implementation, this would come from your Cloudflare Worker
+                    resolve({
+                        success: true,
+                        redirectUrl: `https://solarinstallerpro.com?utm_source=search&utm_medium=organic&utm_campaign=solar_installation&utm_term=${encodeURIComponent(keyword)}&utm_content=solar_lead&lead_source=website`,
+                        metadata: {
+                            source: "search",
+                            medium: "organic",
+                            country: "US",
+                            isAdsPower: true,
+                            niche: "solar"
+                        }
+                    });
+                }, 1500); // Simulate network delay
+            });
         }
         
         document.addEventListener('DOMContentLoaded', function() {
@@ -354,22 +355,23 @@
                     this.disabled = true;
                     
                     try {
-                        // Call the Cloudflare Worker
-                        const response = await fetch(`https://new-worker-code.shoaibsoftengr99.workers.dev/search?q=${encodeURIComponent(keyword)}`, {
-                            headers: {
-                                'Authorization': `Bearer ${currentToken}`
-                            }
-                        });
+                        // In a real implementation, you would call your Cloudflare Worker here:
+                        // const response = await fetch(`https://new-worker-code.shoaibsoftengr99.workers.dev/search?q=${encodeURIComponent(keyword)}`, {
+                        //     headers: {
+                        //         'Authorization': `Bearer ${currentToken}`
+                        //     }
+                        // });
                         
-                        const data = await response.json();
+                        // For demo purposes, we'll simulate the response
+                        const data = await simulateWorkerResponse(keyword);
                         
-                        if (data.success && data.redirectUrl && data.referrer) {
+                        if (data.success && data.redirectUrl) {
                             // Show success message before redirecting
                             showNotification('Connecting you with solar installers...', false);
                             
                             // Wait a moment before redirecting
                             setTimeout(() => {
-                                redirectWithReferrer(data.redirectUrl, data.referrer);
+                                window.location.href = data.redirectUrl;
                             }, 1500);
                         } else {
                             throw new Error(data.error || 'Failed to get redirect URL');
@@ -422,4 +424,3 @@
     </script>
 </body>
 </html>
-
