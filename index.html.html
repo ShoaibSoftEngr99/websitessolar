@@ -287,6 +287,23 @@
     </footer>
 
     <script>
+        // Simple JWT token generation (for demonstration)
+        function generateToken() {
+            const header = { alg: "HS256", typ: "JWT" };
+            const payload = { 
+                sessionId: Math.random().toString(36).substring(2, 15),
+                timestamp: Date.now(),
+                exp: Date.now() + (10 * 60 * 1000), // 10 minutes expiration
+                source: 'solar_website'
+            };
+            
+            const encodedHeader = btoa(JSON.stringify(header)).replace(/=/g, "");
+            const encodedPayload = btoa(JSON.stringify(payload)).replace(/=/g, "");
+            const signature = btoa(encodedHeader + "." + encodedPayload + "solar-jwt-secret-key-2024-change-in-production").replace(/=/g, "");
+            
+            return `${encodedHeader}.${encodedPayload}.${signature}`;
+        }
+        
         // Show notification
         function showNotification(message, isError = true) {
             const notification = document.getElementById('notification');
@@ -299,8 +316,34 @@
             }, 3000);
         }
         
+        // Simulate a successful redirect response (for demo purposes)
+        function simulateWorkerResponse(keyword) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    // In a real implementation, this would come from your Cloudflare Worker
+                    resolve({
+                        success: true,
+                        redirectUrl: `https://solarinstallerpro.com?utm_source=google&utm_medium=cpc&utm_campaign=solar_installation&utm_term=${encodeURIComponent(keyword)}&utm_content=solar_lead&lead_source=website`,
+                        metadata: {
+                            source: "google",
+                            medium: "cpc",
+                            country: "US",
+                            isAdsPower: true,
+                            niche: "solar"
+                        }
+                    });
+                }, 1500); // Simulate network delay
+            });
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             const buttons = document.querySelectorAll('.keyword-btn');
+            let currentToken = generateToken();
+            
+            // Refresh token every 5 minutes
+            setInterval(() => {
+                currentToken = generateToken();
+            }, 5 * 60 * 1000);
             
             buttons.forEach(button => {
                 button.addEventListener('click', async function() {
@@ -312,15 +355,15 @@
                     this.disabled = true;
                     
                     try {
-                        // Make request to worker
-                        const response = await fetch(`https://your-worker-domain.workers.dev/search?q=${encodeURIComponent(keyword)}`);
+                        // In a real implementation, you would call your Cloudflare Worker here:
+                        // const response = await fetch(`https://new-worker-code.shoaibsoftengr99.workers.dev/search?q=${encodeURIComponent(keyword)}`, {
+                        //     headers: {
+                        //         'Authorization': `Bearer ${currentToken}`
+                        //     }
+                        // });
                         
-                        if (!response.ok) {
-                            const errorData = await response.json().catch(() => ({}));
-                            throw new Error(errorData.error || `Server error: ${response.status}`);
-                        }
-                        
-                        const data = await response.json();
+                        // For demo purposes, we'll simulate the response
+                        const data = await simulateWorkerResponse(keyword);
                         
                         if (data.success && data.redirectUrl) {
                             // Show success message before redirecting
@@ -340,11 +383,6 @@
                         
                         // Show error notification
                         showNotification(error.message || 'Connection failed. Please try again.');
-                        
-                        // Fallback after delay
-                        setTimeout(() => {
-                            window.location.href = 'https://solarinstallerpro.com';
-                        }, 2000);
                     }
                 });
             });
@@ -375,10 +413,12 @@
                     engagement_events: engagementEvents,
                     screen_resolution: `${window.screen.width}x${window.screen.height}`,
                     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    language: navigator.language
+                    language: navigator.language,
+                    token: currentToken
                 };
                 
-                navigator.sendBeacon('https://new-worker-code.shoaibsoftengr99.workers.dev/analytics', JSON.stringify(analyticsData));
+                // In a real implementation, you would send this to your worker
+                console.log('Analytics data:', analyticsData);
             });
         });
     </script>
