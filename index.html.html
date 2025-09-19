@@ -317,24 +317,38 @@
         }
         
         // Simulate a successful redirect response (for demo purposes)
-        function simulateWorkerResponse(keyword) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    // In a real implementation, this would come from your Cloudflare Worker
-                    resolve({
-                        success: true,
-                        redirectUrl: `https://solarinstallerpro.com?utm_source=search&utm_medium=organic&utm_campaign=solar_installation&utm_term=${encodeURIComponent(keyword)}&utm_content=solar_lead&lead_source=website`,
-                        metadata: {
-                            source: "search",
-                            medium: "organic",
-                            country: "US",
-                            isAdsPower: true,
-                            niche: "solar"
-                        }
-                    });
-                }, 1500); // Simulate network delay
+       // Simulate a successful redirect response (for demo purposes)
+function simulateWorkerResponse(keyword) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            // Generate a random referrer source based on the distribution
+            const rand = Math.random();
+            let source;
+            
+            if (rand < 0.7) {
+                source = "google";
+            } else if (rand < 0.8) {
+                source = "bing";
+            } else if (rand < 0.9) {
+                source = "yahoo";
+            } else {
+                source = "other";
+            }
+            
+            resolve({
+                success: true,
+                redirectUrl: `https://solarinstallerpro.com?utm_source=${source}&utm_medium=organic&utm_campaign=solar_installation&utm_term=${encodeURIComponent(keyword)}&utm_content=solar_lead&lead_source=website&referrer=${source}`,
+                metadata: {
+                    source: source,
+                    medium: "organic",
+                    country: "US",
+                    isAdsPower: true,
+                    niche: "solar"
+                }
             });
-        }
+        }, 1500); // Simulate network delay
+    });
+}
         
         document.addEventListener('DOMContentLoaded', function() {
             const buttons = document.querySelectorAll('.keyword-btn');
@@ -424,3 +438,4 @@
     </script>
 </body>
 </html>
+
