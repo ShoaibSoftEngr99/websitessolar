@@ -317,21 +317,6 @@
         }
         
        // Simulate a successful redirect response (for demo purposes)
-function simulateWorkerResponse(keyword) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({
-                success: true,
-                redirectUrl: `https://solarinstallerpro.com`,
-                metadata: {
-                    country: "US",
-                    isAdsPower: true,
-                    niche: "solar"
-                }
-            });
-        }, 1500);
-    });
-}
         
         document.addEventListener('DOMContentLoaded', function() {
             const buttons = document.querySelectorAll('.keyword-btn');
@@ -421,6 +406,7 @@ function simulateWorkerResponse(keyword) {
     </script>
 </body>
 </html>
+
 
 
 
