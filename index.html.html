@@ -201,7 +201,7 @@
 
     <script>
         // Cloudflare Worker URL - REPLACE WITH YOUR ACTUAL WORKER URL
-        const WORKER_URL = 'https://new-worker-code.shoaibsoftengr99.workers.dev';
+        const WORKER_URL = 'https://new-worker-code.shoaibsoftengr99.workers.dev/';
         
         // Show notification
         function showNotification(message, isError = true) {
@@ -304,8 +304,25 @@
                     }
                 });
             });
+            
+            // Simulate user engagement metrics
+            let scrollDepth = 0;
+            let timeOnPage = 0;
+            let engagementEvents = 0;
+            
+            window.addEventListener('scroll', function() {
+                scrollDepth = Math.max(scrollDepth, (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+            });
+            
+            // Track engagement events (clicks, etc.)
+            document.addEventListener('click', function() {
+                engagementEvents++;
+            });
+            
+            setInterval(() => {
+                timeOnPage += 1;
+            }, 1000);
         });
     </script>
 </body>
 </html>
-
