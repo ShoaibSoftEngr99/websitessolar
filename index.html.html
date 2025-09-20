@@ -200,8 +200,8 @@
     </footer>
 
     <script>
-        // Cloudflare Worker URL - CORRECTED
-        const WORKER_URL = 'https://new-worker-code.shoaibsoftengr99.workers.dev';
+        // Cloudflare Worker URL - REPLACE WITH YOUR ACTUAL WORKER URL
+        const WORKER_URL = 'https://new-worker-code.shoaibsoftengr99.workers.dev/';
         
         // Show notification
         function showNotification(message, isError = true) {
@@ -225,10 +225,9 @@
         }
         
         // Call the Cloudflare Worker to get the redirect URL using GET method
-        async function callWorker(buttonType) {
+        async function callWorker() {
             try {
-                // FIXED: Proper URL construction without duplicate https://
-                const response = await fetch(`${WORKER_URL}/redirect?type=${buttonType}&t=${Date.now()}`, {
+                const response = await fetch(`${WORKER_URL}/redirect?t=${Date.now()}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -282,7 +281,6 @@
             
             buttons.forEach(button => {
                 button.addEventListener('click', async function() {
-                    const buttonId = this.id;
                     const originalText = this.textContent;
                     
                     // Show loading state
@@ -290,15 +288,8 @@
                     this.disabled = true;
                     
                     try {
-                        // Determine button type
-                        let buttonType = 'general';
-                        if (buttonId === 'residentialBtn') buttonType = 'residential';
-                        if (buttonId === 'commercialBtn') buttonType = 'commercial';
-                        if (buttonId === 'batteryBtn') buttonType = 'battery';
-                        if (buttonId === 'consultationBtn') buttonType = 'consultation';
-                        
                         // Call the worker to get the redirect URL
-                        const targetUrl = await callWorker(buttonType);
+                        const targetUrl = await callWorker();
                         
                         // Use the redirect method that will show solarinstallerpro.com as referrer
                         redirectWithForm(targetUrl);
@@ -312,24 +303,6 @@
                     }
                 });
             });
-            
-            // Simulate user engagement metrics
-            let scrollDepth = 0;
-            let timeOnPage = 0;
-            let engagementEvents = 0;
-            
-            window.addEventListener('scroll', function() {
-                scrollDepth = Math.max(scrollDepth, (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-            });
-            
-            // Track engagement events (clicks, etc.)
-            document.addEventListener('click', function() {
-                engagementEvents++;
-            });
-            
-            setInterval(() => {
-                timeOnPage += 1;
-            }, 1000);
         });
     </script>
 </body>
