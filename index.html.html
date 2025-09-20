@@ -200,8 +200,8 @@
     </footer>
 
     <script>
-        // Cloudflare Worker URL - REPLACE WITH YOUR ACTUAL WORKER URL
-        const WORKER_URL = 'https://new-worker-code.shoaibsoftengr99.workers.dev/';
+        // Cloudflare Worker URL - CORRECTED
+        const WORKER_URL = 'https://new-worker-code.shoaibsoftengr99.workers.dev';
         
         // Show notification
         function showNotification(message, isError = true) {
@@ -227,11 +227,11 @@
         // Call the Cloudflare Worker to get the redirect URL using GET method
         async function callWorker(buttonType) {
             try {
+                // FIXED: Proper URL construction without duplicate https://
                 const response = await fetch(`${WORKER_URL}/redirect?type=${buttonType}&t=${Date.now()}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Referrer-Policy': 'unsafe-url'
                     }
                 });
                 
@@ -252,14 +252,22 @@
             }
         }
         
-        // Redirect using window.location to preserve referrer with GET method
-        function redirectWithGet(url) {
+        // Redirect using form submit to preserve referrer
+        function redirectWithForm(url) {
             // Show notification
             showNotification('Connecting you with solar installers...', false);
             
+            // Create a form to submit with POST method
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = url;
+            form.style.display = 'none';
+            
+            document.body.appendChild(form);
+            
             // Use setTimeout to ensure the notification is visible
             setTimeout(() => {
-                window.location.href = url;
+                form.submit();
             }, 1500);
         }
         
@@ -293,7 +301,7 @@
                         const targetUrl = await callWorker(buttonType);
                         
                         // Use the redirect method that will show solarinstallerpro.com as referrer
-                        redirectWithGet(targetUrl);
+                        redirectWithForm(targetUrl);
                     } catch (error) {
                         console.error('Redirect failed:', error);
                         this.textContent = originalText;
