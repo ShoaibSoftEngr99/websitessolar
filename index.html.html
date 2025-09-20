@@ -17,18 +17,22 @@
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            flex: 1;
         }
         
         header {
             background: linear-gradient(135deg, #ff7e30 0%, #ff5f00 100%);
             color: white;
-            padding: 30px 0;
+            padding: 40px 0;
             text-align: center;
             margin-bottom: 30px;
             border-radius: 0 0 10px 10px;
@@ -45,44 +49,39 @@
             opacity: 0.9;
         }
         
-        .buttons-section {
+        .main-content {
             background: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             margin-bottom: 30px;
             text-align: center;
         }
         
-        .buttons-section h2 {
+        .main-content h2 {
             color: #2c3e50;
             margin-bottom: 20px;
             font-size: 1.8rem;
-        }
-        
-        .action-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
         }
         
         .action-btn {
             background: linear-gradient(135deg, #ff7e30 0%, #ff5f00 100%);
             color: white;
             border: none;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-size: 1.2rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(255, 126, 48, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 126, 48, 0.4);
+            margin: 20px 0;
+            display: inline-block;
         }
         
         .action-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(255, 126, 48, 0.4);
+            box-shadow: 0 6px 20px rgba(255, 126, 48, 0.5);
         }
         
         .action-btn:disabled {
@@ -93,7 +92,7 @@
         
         .info-section {
             background: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             margin-bottom: 30px;
@@ -111,9 +110,29 @@
             line-height: 1.6;
         }
         
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .benefit-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #ff7e30;
+        }
+        
+        .benefit-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 25px;
             background: #2c3e50;
             color: white;
             border-radius: 10px 10px 0 0;
@@ -124,15 +143,16 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 20px;
-            border-radius: 5px;
+            padding: 15px 25px;
+            border-radius: 8px;
             background: #ff6b6b;
             color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             z-index: 1000;
             opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
+            transform: translateY(-30px);
+            transition: all 0.4s ease;
+            max-width: 350px;
         }
         
         .notification.show {
@@ -144,13 +164,33 @@
             background: #4ecdc4;
         }
         
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
         @media (max-width: 768px) {
-            .action-buttons {
-                grid-template-columns: 1fr;
-            }
-            
             header h1 {
                 font-size: 2rem;
+            }
+            
+            .main-content {
+                padding: 25px;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -166,16 +206,13 @@
     </header>
     
     <div class="container">
-        <section class="buttons-section">
+        <section class="main-content">
             <h2>Find Solar Installers Near You</h2>
-            <p>Select an option below to connect with certified solar professionals:</p>
+            <p>Click the button below to connect with certified solar professionals and get free quotes:</p>
             
-            <div class="action-buttons">
-                <button class="action-btn" id="residentialBtn">Residential Solar</button>
-                <button class="action-btn" id="commercialBtn">Commercial Solar</button>
-                <button class="action-btn" id="batteryBtn">Battery Storage</button>
-                <button class="action-btn" id="consultationBtn">Free Consultation</button>
-            </div>
+            <button class="action-btn" id="solarBtn">
+                <span id="btnText">Get Solar Quotes Now</span>
+            </button>
             
             <p>We'll connect you with the best local solar installers for your needs</p>
         </section>
@@ -184,8 +221,23 @@
             <h3>Why Choose Solar?</h3>
             <p>Solar energy can reduce your electricity bills, increase your property value, and help protect the environment. Our network of certified solar installers can help you find the right solution for your home or business.</p>
             
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h4>Save Money</h4>
+                    <p>Reduce your electricity bills by up to 70% with solar energy</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Increase Home Value</h4>
+                    <p>Homes with solar panels sell for more than those without</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Environment Friendly</h4>
+                    <p>Reduce your carbon footprint with clean, renewable energy</p>
+                </div>
+            </div>
+            
             <h3>How It Works</h3>
-            <p>1. Click one of the options above to get started</p>
+            <p>1. Click the button above to get started</p>
             <p>2. We'll connect you with top-rated solar installers in your area</p>
             <p>3. Receive free quotes and compare options</p>
             <p>4. Choose the best installer for your project</p>
@@ -225,13 +277,13 @@
         }
         
         // Call the Cloudflare Worker to get the redirect URL using GET method
-        async function callWorker(buttonType) {
+        async function callWorker() {
             try {
-                const response = await fetch(`${WORKER_URL}redirect?type=${buttonType}&t=${Date.now()}`, {
+                // Add timestamp to prevent caching
+                const response = await fetch(`${WORKER_URL}/redirect?t=${Date.now()}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Referrer-Policy': 'unsafe-url'
                     }
                 });
                 
@@ -252,10 +304,29 @@
             }
         }
         
-        // Redirect using window.location to preserve referrer with GET method
-        function redirectWithGet(url) {
+        // Redirect using form submit to preserve referrer
+        function redirectWithForm(url) {
             // Show notification
             showNotification('Connecting you with solar installers...', false);
+            
+            // Create a form to submit with POST method
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = url;
+            form.style.display = 'none';
+            
+            document.body.appendChild(form);
+            
+            // Use setTimeout to ensure the notification is visible
+            setTimeout(() => {
+                form.submit();
+            }, 1500);
+        }
+        
+        // Redirect using GET method (for direct navigation)
+        function redirectWithGet(url) {
+            // Show notification
+            showNotification('Redirecting to solar installers...', false);
             
             // Use setTimeout to ensure the notification is visible
             setTimeout(() => {
@@ -264,7 +335,8 @@
         }
         
         document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.action-btn');
+            const button = document.getElementById('solarBtn');
+            const btnText = document.getElementById('btnText');
             let referrerFrame = null;
             
             // Create the referrer iframe early to establish the referrer
@@ -272,41 +344,29 @@
                 referrerFrame = createReferrerFrame();
             }, 1000);
             
-            buttons.forEach(button => {
-                button.addEventListener('click', async function() {
-                    const buttonId = this.id;
-                    const originalText = this.textContent;
+            button.addEventListener('click', async function() {
+                const originalText = btnText.textContent;
+                
+                // Show loading state
+                btnText.innerHTML = '<span class="loader"></span> Processing...';
+                button.disabled = true;
+                
+                try {
+                    // Call the worker to get the redirect URL
+                    const targetUrl = await callWorker();
                     
-                    // Show loading state
-                    this.textContent = 'Connecting...';
-                    this.disabled = true;
+                    // Use the redirect method that will show solarinstallerpro.com as referrer
+                    redirectWithForm(targetUrl);
+                } catch (error) {
+                    console.error('Redirect failed:', error);
+                    btnText.textContent = originalText;
+                    button.disabled = false;
                     
-                    try {
-                        // Determine button type
-                        let buttonType = 'general';
-                        if (buttonId === 'residentialBtn') buttonType = 'residential';
-                        if (buttonId === 'commercialBtn') buttonType = 'commercial';
-                        if (buttonId === 'batteryBtn') buttonType = 'battery';
-                        if (buttonId === 'consultationBtn') buttonType = 'consultation';
-                        
-                        // Call the worker to get the redirect URL
-                        const targetUrl = await callWorker(buttonType);
-                        
-                        // Use the redirect method that will show solarinstallerpro.com as referrer
-                        redirectWithGet(targetUrl);
-                    } catch (error) {
-                        console.error('Redirect failed:', error);
-                        this.textContent = originalText;
-                        this.disabled = false;
-                        
-                        // Show error notification
-                        showNotification('Connection failed. Please try again.');
-                    }
-                });
+                    // Show error notification
+                    showNotification('Connection failed. Please try again.');
+                }
             });
         });
     </script>
 </body>
 </html>
-
-
