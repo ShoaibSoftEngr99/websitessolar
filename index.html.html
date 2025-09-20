@@ -200,7 +200,7 @@
     </footer>
 
     <script>
-        // Cloudflare Worker URL - CORRECTED VERSION
+        // Cloudflare Worker URL - CORRECTED
         const WORKER_URL = 'https://new-worker-code.shoaibsoftengr99.workers.dev';
         
         // Show notification
@@ -227,6 +227,7 @@
         // Call the Cloudflare Worker to get the redirect URL using GET method
         async function callWorker(buttonType) {
             try {
+                // FIXED: Proper URL construction without duplicate https://
                 const response = await fetch(`${WORKER_URL}/redirect?type=${buttonType}&t=${Date.now()}`, {
                     method: 'GET',
                     headers: {
