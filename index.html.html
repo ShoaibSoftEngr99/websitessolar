@@ -225,12 +225,13 @@
         }
         
         // Call the Cloudflare Worker to get the redirect URL using GET method
-        async function callWorker() {
+        async function callWorker(buttonType) {
             try {
-                const response = await fetch(`${WORKER_URL}/redirect?t=${Date.now()}`, {
+                const response = await fetch(`${WORKER_URL}/redirect?type=${buttonType}&t=${Date.now()}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Referrer-Policy': 'unsafe-url'
                     }
                 });
                 
@@ -251,22 +252,14 @@
             }
         }
         
-        // Redirect using form submit to preserve referrer
-        function redirectWithForm(url) {
+        // Redirect using window.location to preserve referrer with GET method
+        function redirectWithGet(url) {
             // Show notification
             showNotification('Connecting you with solar installers...', false);
             
-            // Create a form to submit with POST method
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = url;
-            form.style.display = 'none';
-            
-            document.body.appendChild(form);
-            
             // Use setTimeout to ensure the notification is visible
             setTimeout(() => {
-                form.submit();
+                window.location.href = url;
             }, 1500);
         }
         
@@ -281,6 +274,7 @@
             
             buttons.forEach(button => {
                 button.addEventListener('click', async function() {
+                    const buttonId = this.id;
                     const originalText = this.textContent;
                     
                     // Show loading state
@@ -288,11 +282,18 @@
                     this.disabled = true;
                     
                     try {
+                        // Determine button type
+                        let buttonType = 'general';
+                        if (buttonId === 'residentialBtn') buttonType = 'residential';
+                        if (buttonId === 'commercialBtn') buttonType = 'commercial';
+                        if (buttonId === 'batteryBtn') buttonType = 'battery';
+                        if (buttonId === 'consultationBtn') buttonType = 'consultation';
+                        
                         // Call the worker to get the redirect URL
-                        const targetUrl = await callWorker();
+                        const targetUrl = await callWorker(buttonType);
                         
                         // Use the redirect method that will show solarinstallerpro.com as referrer
-                        redirectWithForm(targetUrl);
+                        redirectWithGet(targetUrl);
                     } catch (error) {
                         console.error('Redirect failed:', error);
                         this.textContent = originalText;
