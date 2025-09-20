@@ -227,7 +227,7 @@
         // Call the Cloudflare Worker to get the redirect URL using GET method
         async function callWorker(buttonType) {
             try {
-                const response = await fetch(`${https://new-worker-code.shoaibsoftengr99.workers.dev/}/redirect?type=${buttonType}&t=${Date.now()}`, {
+                const response = await fetch(`${WORKER_URL}/redirect?type=${buttonType}&t=${Date.now()}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -333,4 +333,5 @@
     </script>
 </body>
 </html>
+
 
