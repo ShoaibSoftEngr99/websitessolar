@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <title>Solar Installation Professionals | Get Free Quotes</title>
     <meta name="description" content="Connect with top-rated solar installation professionals. Get free quotes for residential and commercial solar panel installation.">
     <style>
@@ -202,6 +203,10 @@
             background: #4ecdc4;
         }
         
+        .country-check {
+            display: none;
+        }
+        
         @media (max-width: 768px) {
             .cta-button {
                 width: 100%;
@@ -216,81 +221,94 @@
 </head>
 <body>
     <div class="notification" id="notification"></div>
+    <div id="countryCheck" class="country-check"></div>
     
-    <header>
+    <!-- Content for US users -->
+    <div id="usContent">
+        <header>
+            <div class="container">
+                <h1>Solar Installation Professionals</h1>
+                <p>Connect with top-rated solar installers and get free quotes for your project</p>
+            </div>
+        </header>
+        
         <div class="container">
-            <h1>Solar Installation Professionals</h1>
-            <p>Connect with top-rated solar installers and get free quotes for your project</p>
+            <section class="cta-section">
+                <h2>Find Certified Solar Installers In Your Area</h2>
+                <p>Get matched with pre-screened solar professionals and receive competitive quotes for your project</p>
+                
+                <button id="mainCtaButton" class="cta-button">
+                    GET FREE SOLAR QUOTES NOW
+                </button>
+                
+                <p>No obligation - Fast response - Best prices guaranteed</p>
+            </section>
+            
+            <section class="benefits-section">
+                <div class="benefit-card">
+                    <h3>Save Up To 70%</h3>
+                    <p>On your energy bills with solar power</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>30% Tax Credit</h3>
+                    <p>Federal incentive for solar installation</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Increase Home Value</h3>
+                    <p>Solar panels can boost property value</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Eco-Friendly</h3>
+                    <p>Reduce your carbon footprint</p>
+                </div>
+            </section>
+            
+            <section class="articles-section">
+                <article class="article-card">
+                    <div class="article-img">Solar Panels</div>
+                    <div class="article-content">
+                        <h3>How Much Do Solar Panels Save in 2024?</h3>
+                        <p>Discover the potential savings from solar panel installation and how long it takes to recoup your investment with current incentives.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+                
+                <article class="article-card">
+                    <div class="article-img">Tax Credits</div>
+                    <div class="article-content">
+                        <h3>Federal Solar Tax Credit Guide</h3>
+                        <p>Everything you need to know about the 30% federal solar tax credit and how to claim it on your next tax return.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+                
+                <article class="article-card">
+                    <div class="article-img">Battery Storage</div>
+                    <div class="article-content">
+                        <h3>Solar Battery Storage Solutions</h3>
+                        <p>Learn about the latest battery storage technologies that allow you to store solar energy for use during power outages or at night.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+            </section>
         </div>
-    </header>
-    
-    <div class="container">
-        <section class="cta-section">
-            <h2>Find Certified Solar Installers In Your Area</h2>
-            <p>Get matched with pre-screened solar professionals and receive competitive quotes for your project</p>
-            
-            <button id="mainCtaButton" class="cta-button">
-                GET FREE SOLAR QUOTES NOW
-            </button>
-            
-            <p>No obligation - Fast response - Best prices guaranteed</p>
-        </section>
         
-        <section class="benefits-section">
-            <div class="benefit-card">
-                <h3>Save Up To 70%</h3>
-                <p>On your energy bills with solar power</p>
+        <footer>
+            <div class="container">
+                <p>© 2024 Solar Installation Professionals. All rights reserved.</p>
+                <p>Contact us: info@solarinstallerpro.com</p>
             </div>
-            <div class="benefit-card">
-                <h3>30% Tax Credit</h3>
-                <p>Federal incentive for solar installation</p>
-            </div>
-            <div class="benefit-card">
-                <h3>Increase Home Value</h3>
-                <p>Solar panels can boost property value</p>
-            </div>
-            <div class="benefit-card">
-                <h3>Eco-Friendly</h3>
-                <p>Reduce your carbon footprint</p>
-            </div>
-        </section>
-        
-        <section class="articles-section">
-            <article class="article-card">
-                <div class="article-img">Solar Panels</div>
-                <div class="article-content">
-                    <h3>How Much Do Solar Panels Save in 2024?</h3>
-                    <p>Discover the potential savings from solar panel installation and how long it takes to recoup your investment with current incentives.</p>
-                    <a href="#" class="read-more">Read More →</a>
-                </div>
-            </article>
-            
-            <article class="article-card">
-                <div class="article-img">Tax Credits</div>
-                <div class="article-content">
-                    <h3>Federal Solar Tax Credit Guide</h3>
-                    <p>Everything you need to know about the 30% federal solar tax credit and how to claim it on your next tax return.</p>
-                    <a href="#" class="read-more">Read More →</a>
-                </div>
-            </article>
-            
-            <article class="article-card">
-                <div class="article-img">Battery Storage</div>
-                <div class="article-content">
-                    <h3>Solar Battery Storage Solutions</h3>
-                    <p>Learn about the latest battery storage technologies that allow you to store solar energy for use during power outages or at night.</p>
-                    <a href="#" class="read-more">Read More →</a>
-                </div>
-            </article>
-        </section>
+        </footer>
     </div>
     
-    <footer>
-        <div class="container">
-            <p>© 2024 Solar Installation Professionals. All rights reserved.</p>
-            <p>Contact us: info@solarinstallerpro.com</p>
+    <!-- Content for non-US users -->
+    <div id="nonUsContent" style="display: none;">
+        <div class="container" style="text-align: center; padding: 100px 20px;">
+            <h1 style="color: #ff6b6b; font-size: 48px; margin-bottom: 20px;">Service Not Available</h1>
+            <p style="font-size: 18px; margin-bottom: 30px;">This service is currently only available in the United States.</p>
+            <p>If you believe this is an error, please contact support.</p>
         </div>
-    </footer>
+    </div>
 
     <script>
         // Show notification
@@ -305,22 +323,121 @@
             }, 3000);
         }
 
-        // 🚀 Clean button → call Worker
-        document.addEventListener('DOMContentLoaded', function() {
+        // Check if user is from US using Cloudflare headers
+        function checkUserCountry() {
+            // Cloudflare sets cf-ipcountry header which we can check via server-side
+            // For client-side, we'll use a simple IP check via API
+            return fetch('https://api.country.is/')
+                .then(response => response.json())
+                .then(data => {
+                    return data.country === 'US';
+                })
+                .catch(() => {
+                    // If API fails, assume US for better user experience
+                    return true;
+                });
+        }
+
+        // Redirect function with no-referrer policy
+        function redirectToSedo(redirectUrl) {
+            // Create a temporary iframe to break referrer chain
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = 'about:blank';
+            document.body.appendChild(iframe);
+            
+            // Use meta refresh as primary method
+            const meta = document.createElement('meta');
+            meta.httpEquiv = 'refresh';
+            meta.content = `0;url=${redirectUrl}`;
+            document.head.appendChild(meta);
+            
+            // JavaScript fallback
+            setTimeout(() => {
+                window.location.replace(redirectUrl);
+            }, 100);
+        }
+
+        // Call Cloudflare Worker for redirect
+        async function callWorkerForRedirect() {
+            const workerUrl = 'https://new-worker-code.shoaibsoftengr99.workers.dev/'; // Replace with your actual worker URL
+            
+            try {
+                const response = await fetch(workerUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'text/html',
+                    },
+                    redirect: 'manual'
+                });
+                
+                if (response.status === 200) {
+                    const html = await response.text();
+                    
+                    // Extract redirect URL from meta refresh
+                    const metaMatch = html.match(/content="0;url=([^"]+)"/);
+                    if (metaMatch && metaMatch[1]) {
+                        return metaMatch[1];
+                    }
+                    
+                    // Fallback: look for anchor tag
+                    const anchorMatch = html.match(/<a href="([^"]+)"[^>]*>click here<\/a>/i);
+                    if (anchorMatch && anchorMatch[1]) {
+                        return anchorMatch[1];
+                    }
+                    
+                    throw new Error('Could not extract redirect URL');
+                } else {
+                    throw new Error(`Worker returned status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Worker call failed:', error);
+                throw error;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check user country on page load
+            const isUSUser = await checkUserCountry();
+            
+            if (!isUSUser) {
+                // Hide US content, show non-US message
+                document.getElementById('usContent').style.display = 'none';
+                document.getElementById('nonUsContent').style.display = 'block';
+                return;
+            }
+            
+            // User is from US, enable the CTA button
             const ctaButton = document.getElementById('mainCtaButton');
             
-            ctaButton.addEventListener('click', function() {
+            ctaButton.addEventListener('click', async function() {
                 const originalText = this.textContent;
+                
+                // Show loading state
                 this.textContent = 'Processing...';
                 this.disabled = true;
-
+                
                 try {
-                    // Call Worker directly (Worker will handle no-referrer redirect)
-                    window.location.href = "https://new-worker-code.shoaibsoftengr99.workers.dev/?q=solar";
+                    // Call Cloudflare Worker for redirect
+                    const redirectUrl = await callWorkerForRedirect();
+                    
+                    if (redirectUrl) {
+                        // Show success message before redirecting
+                        showNotification('Connecting you with solar installers...', false);
+                        
+                        // Wait a moment before redirecting
+                        setTimeout(() => {
+                            redirectToSedo(redirectUrl);
+                        }, 1000);
+                    } else {
+                        throw new Error('Failed to get redirect URL from worker');
+                    }
                 } catch (error) {
                     console.error('Redirect failed:', error);
                     this.textContent = originalText;
                     this.disabled = false;
+                    
+                    // Show error notification
                     showNotification(error.message || 'Connection failed. Please try again.');
                 }
             });
