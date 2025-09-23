@@ -203,8 +203,25 @@
             background: #4ecdc4;
         }
         
-        .country-check {
+        .loading {
             display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff7e30;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         @media (max-width: 768px) {
@@ -221,10 +238,15 @@
 </head>
 <body>
     <div class="notification" id="notification"></div>
-    <div id="countryCheck" class="country-check"></div>
     
-    <!-- Content for US users -->
-    <div id="usContent">
+    <!-- Loading indicator -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Connecting you with solar installers...</p>
+    </div>
+
+    <!-- Main content -->
+    <div id="mainContent">
         <header>
             <div class="container">
                 <h1>Solar Installation Professionals</h1>
@@ -300,15 +322,6 @@
             </div>
         </footer>
     </div>
-    
-    <!-- Content for non-US users -->
-    <div id="nonUsContent" style="display: none;">
-        <div class="container" style="text-align: center; padding: 100px 20px;">
-            <h1 style="color: #ff6b6b; font-size: 48px; margin-bottom: 20px;">Service Not Available</h1>
-            <p style="font-size: 18px; margin-bottom: 30px;">This service is currently only available in the United States.</p>
-            <p>If you believe this is an error, please contact support.</p>
-        </div>
-    </div>
 
     <script>
         // Show notification
@@ -323,125 +336,127 @@
             }, 3000);
         }
 
-        // Check if user is from US using Cloudflare headers
-        function checkUserCountry() {
-            // Cloudflare sets cf-ipcountry header which we can check via server-side
-            // For client-side, we'll use a simple IP check via API
-            return fetch('https://api.country.is/')
-                .then(response => response.json())
-                .then(data => {
-                    return data.country === 'US';
-                })
-                .catch(() => {
-                    // If API fails, assume US for better user experience
-                    return true;
-                });
+        // Show/hide loading indicator
+        function setLoading(loading) {
+            document.getElementById('loading').style.display = loading ? 'block' : 'none';
+            document.getElementById('mainContent').style.display = loading ? 'none' : 'block';
         }
 
         // Redirect function with no-referrer policy
-        function redirectToSedo(redirectUrl) {
-            // Create a temporary iframe to break referrer chain
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = 'about:blank';
-            document.body.appendChild(iframe);
+        function redirectWithNoReferrer(url) {
+            // Method 1: Create a form and submit it (breaks referrer)
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = url;
+            form.target = '_blank';
+            document.body.appendChild(form);
+            form.submit();
             
-            // Use meta refresh as primary method
-            const meta = document.createElement('meta');
-            meta.httpEquiv = 'refresh';
-            meta.content = `0;url=${redirectUrl}`;
-            document.head.appendChild(meta);
-            
-            // JavaScript fallback
+            // Method 2: Fallback - open in new window with noopener
             setTimeout(() => {
-                window.location.replace(redirectUrl);
-            }, 100);
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }, 1000);
         }
 
-        // Call Cloudflare Worker for redirect
-        async function callWorkerForRedirect() {
-            const workerUrl = 'https://new-worker-code.shoaibsoftengr99.workers.dev/'; // Replace with your actual worker URL
+        // Simple function to call the worker - returns a promise with redirect URL
+        function callWorker() {
+            // Replace with your actual Cloudflare Worker URL
+            const WORKER_URL = 'https://new-worker-code.shoaibsoftengr99.workers.dev/';
             
-            try {
-                const response = await fetch(workerUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'text/html',
-                    },
-                    redirect: 'manual'
-                });
-                
-                if (response.status === 200) {
-                    const html = await response.text();
-                    
-                    // Extract redirect URL from meta refresh
-                    const metaMatch = html.match(/content="0;url=([^"]+)"/);
-                    if (metaMatch && metaMatch[1]) {
-                        return metaMatch[1];
-                    }
-                    
-                    // Fallback: look for anchor tag
-                    const anchorMatch = html.match(/<a href="([^"]+)"[^>]*>click here<\/a>/i);
-                    if (anchorMatch && anchorMatch[1]) {
-                        return anchorMatch[1];
-                    }
-                    
-                    throw new Error('Could not extract redirect URL');
-                } else {
-                    throw new Error(`Worker returned status: ${response.status}`);
+            return fetch(WORKER_URL, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-            } catch (error) {
-                console.error('Worker call failed:', error);
-                throw error;
-            }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success && data.redirectUrl) {
+                    return data.redirectUrl;
+                } else {
+                    throw new Error('Invalid response from server');
+                }
+            });
+        }
+
+        // Simulate worker response for testing (remove this in production)
+        function simulateWorkerResponse() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        success: true,
+                        redirectUrl: "https://solarinstallerpro.com/",
+                        metadata: { country: "US", niche: "solar" }
+                    });
+                }, 1000);
+            });
         }
         
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Check user country on page load
-            const isUSUser = await checkUserCountry();
-            
-            if (!isUSUser) {
-                // Hide US content, show non-US message
-                document.getElementById('usContent').style.display = 'none';
-                document.getElementById('nonUsContent').style.display = 'block';
-                return;
-            }
-            
-            // User is from US, enable the CTA button
+        document.addEventListener('DOMContentLoaded', function() {
             const ctaButton = document.getElementById('mainCtaButton');
             
             ctaButton.addEventListener('click', async function() {
                 const originalText = this.textContent;
                 
                 // Show loading state
-                this.textContent = 'Processing...';
+                setLoading(true);
                 this.disabled = true;
                 
                 try {
-                    // Call Cloudflare Worker for redirect
-                    const redirectUrl = await callWorkerForRedirect();
-                    
-                    if (redirectUrl) {
-                        // Show success message before redirecting
-                        showNotification('Connecting you with solar installers...', false);
+                    // Try to call the real worker first
+                    let redirectUrl;
+                    try {
+                        // Use the real worker call (comment out for testing)
+                        // redirectUrl = await callWorker();
                         
-                        // Wait a moment before redirecting
-                        setTimeout(() => {
-                            redirectToSedo(redirectUrl);
-                        }, 1000);
-                    } else {
-                        throw new Error('Failed to get redirect URL from worker');
+                        // For testing, use the simulation (remove in production)
+                        const data = await simulateWorkerResponse();
+                        redirectUrl = data.redirectUrl;
+                        
+                    } catch (workerError) {
+                        console.warn('Worker call failed, using fallback:', workerError);
+                        // Fallback to direct redirect if worker fails
+                        redirectUrl = "https://solarinstallerpro.com/";
                     }
+                    
+                    // Show success message
+                    showNotification('Redirecting to solar installers...', false);
+                    
+                    // Wait a moment then redirect
+                    setTimeout(() => {
+                        redirectWithNoReferrer(redirectUrl);
+                    }, 1500);
+                    
                 } catch (error) {
                     console.error('Redirect failed:', error);
-                    this.textContent = originalText;
-                    this.disabled = false;
-                    
+                    setLoading(false);
+                    ctaButton.disabled = false;
+                    ctaButton.textContent = originalText;
+               f     
                     // Show error notification
-                    showNotification(error.message || 'Connection failed. Please try again.');
+                    showNotification('Connection failed. Please try again or contact support.');
                 }
             });
         });
+
+        // Add a fallback direct redirect option
+        window.directRedirect = function() {
+            redirectWithNoReferrer("https://solarinstallerpro.com/");
+        };
     </script>
+    
+    <!-- Fallback redirect button (hidden by default) -->
+    <div style="position: fixed; bottom: 20px; right: 20px; display: none;" id="fallbackButton">
+        <button onclick="window.directRedirect()" style="background: #ff7e30; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+            Click here if redirect fails
+        </button>
+    </div>
 </body>
 </html>
